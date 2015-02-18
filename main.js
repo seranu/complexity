@@ -3,10 +3,10 @@ var Graph = require('./graph').graph;
 
 var parser = new parser_();
 parser.parseJS(["test.js"], parser);
-//parser.print();
+parser.print();
 //parser.functionDeclarations();
 parser.parseFunctionDeclarations();
-parser.exportGraph('/home/serbanu/work/complexity/js/g.json');
+parser.exportGraph('g.json');
 
 
 

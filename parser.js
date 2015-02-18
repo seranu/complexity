@@ -55,12 +55,20 @@ function CParser(graphName) {
 		_self._parsedJSONs.forEach(function(ast) {			
 			traverser.traverse(ast.json, {
 				enter: function(node) {
-					if( node.type == 'FunctionDeclaration' ){
+					if( node.type === 'FunctionDeclaration' || node.type === 'Program' ){
 					//	_logger.log( 'fd: ' + JSON.stringify( node, undefined, 4));
-						_self._graph.addNode(node.id.name);
+						var nodeName = '';
+						if( node.type === 'FunctionDeclaration'){
+							nodeName = node.id.name;
+						}else {
+							nodeName = ast.file + 'Main';
+						}					
+						_self._graph.addNode(nodeName);
+						var functionNames = [];
+						functionNames.push(nodeName);
 						//g.printGraph();
 						traverser.traverse(node, {
-							enter: function(innerNode){						
+							enter: function(innerNode, parent){						
 								if(innerNode.type == 'CallExpression'){									
 									//_logger.log('innerNode: ' + JSON.stringify(innerNode, undefined, 4));
 									var args = '', result;
@@ -68,19 +76,27 @@ function CParser(graphName) {
 										args += innerNode.arguments[i].name + ' ';
 									}
 									switch(innerNode.callee.type) {
-									case 'Identifier':											
-										result = _self._graph.addEdge(node.id.name, innerNode.callee.name, true);
+									case 'Identifier':														
+										result = _self._graph.addEdge(functionNames[functionNames.length - 1], innerNode.callee.name, true);
 										//self._logger.log('Adding edge: ' + node.id.name + ' - ' + innerNode.callee.name + ' Result: ' + result);
 										//_logger.log('[' + node.id.name + ']Function call to: ' + innerNode.callee.name + ' arguments: ' + args);					
 										break;
-									case 'MemberExpression':										
-										result = _self._graph.addEdge(node.id.name, innerNode.callee.object.name + '.' + innerNode.callee.property.name, true);
+									case 'MemberExpression':							
+										result = _self._graph.addEdge(functionNames[functionNames.length - 1], innerNode.callee.object.name + '.' + innerNode.callee.property.name, true);
 										//self._logger.log('Adding edge: ' + node.id.name + ' - ' +  innerNode.callee.object.name + '.' + innerNode.callee.property.name +  ' Result: ' + result );
 										//_logger.log('[' + node.id.name + ']function call to ' + innerNode.callee.object.name + '.' + innerNode.callee.property.name + ' arguments: ' + args );										
 										break;
 									default:
 										_self._logger.log('default');
 									}
+								} 
+								if(innerNode.type === 'FunctionDeclaration') {
+									functionNames.push(innerNode.id.name);
+								}
+							},
+							leave: function(innerNode, parent){
+								if(innerNode.type === 'FunctionDeclaration'){
+									functionNames.pop();
 								}
 							} 
 						});

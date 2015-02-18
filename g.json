@@ -1,6 +1,10 @@
 {
     "_name": "HelloGraph",
     "_nodes": {
+        "test.jsMain": {
+            "_name": "test.jsMain",
+            "_neighbours": "nar"
+        },
         "foo": {
             "_name": "foo",
             "_neighbours": "console.log, bar"

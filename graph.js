@@ -152,9 +152,9 @@ function Graph(graphName) {
 		if( create ){
 			if( leftNode === undefined ){
 				//_logger.log('left');
-				self._nodes[left] = new Node(left);
-				
-			} else if(rightNode === undefined){
+				_self._nodes[left] = new Node(left);				
+			} 
+			if(rightNode === undefined){
 				//_logger.log('right');
 				_self._nodes[right] = new Node(right);
 			}

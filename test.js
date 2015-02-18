@@ -60,3 +60,5 @@ function nar(nararg){
 	bar(nararg);
 	foo(nararg);
 }
+
+nar(barg);
