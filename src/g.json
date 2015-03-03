@@ -1,0 +1,49 @@
+{
+    "_name": "HelloGraph",
+    "_nodes": {
+        "test2.jsMain": {
+            "_name": "test2.jsMain",
+            "_neighbours": "require, libamqp.factory, callback, console.log, connectInputAmqp"
+        },
+        "require": {
+            "_name": "require",
+            "_neighbours": []
+        },
+        "libamqp.factory": {
+            "_name": "libamqp.factory",
+            "_neighbours": []
+        },
+        "callback": {
+            "_name": "callback",
+            "_neighbours": []
+        },
+        "console.log": {
+            "_name": "console.log",
+            "_neighbours": []
+        },
+        "consumeEML": {
+            "_name": "consumeEML",
+            "_neighbours": "fs.existsSync, fs.mkdir, fs.writeFile, console.log, message.acknowledge"
+        },
+        "fs.existsSync": {
+            "_name": "fs.existsSync",
+            "_neighbours": []
+        },
+        "fs.mkdir": {
+            "_name": "fs.mkdir",
+            "_neighbours": []
+        },
+        "fs.writeFile": {
+            "_name": "fs.writeFile",
+            "_neighbours": []
+        },
+        "message.acknowledge": {
+            "_name": "message.acknowledge",
+            "_neighbours": []
+        },
+        "connectInputAmqp": {
+            "_name": "connectInputAmqp",
+            "_neighbours": []
+        }
+    }
+}

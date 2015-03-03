@@ -1,0 +1,103 @@
+<!-- START DRACULA IMPORTS -->
+<script type="text/javascript" src="node_modules/graphdracula/js/raphael-min.js"></script>
+<script type="text/javascript" src="node_modules/graphdracula/js/dracula_graffle.js"></script>
+<script type="text/javascript" src="node_modules/graphdracula/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="node_modules/graphdracula/js/dracula_graph.js"></script>
+<!-- END DRACULA IMPORTS -->
+
+<input type="file" id="file" name="file" enctype="multipart/form-data"/>
+
+<script>
+document.getElementById('file').addEventListener('change', readFile, false);
+function drawGraph(json){
+  alert(json);
+  var i,
+  s;
+
+  var g = new Graph();
+/*
+ 
+*/
+var width = $(document).width() - 20;
+var height = $(document).height() - 60;
+
+g = new Graph();
+var pJson = JSON.parse(json);
+  //alert(pJson._name);
+  //var fs = require('fs');
+  //var json = JSON.parse(fs.readFileSync('g.json'));
+  //alert(JSON.stringify(json));
+
+  // Generate a random graph:
+  for (var property in pJson._nodes){
+    //alert('push ' + pJson._nodes[property]._name)
+    g.addNode(property);
+  }
+  
+for (var property in pJson._nodes){
+  var str = pJson._nodes[property]._neighbours;
+  if( str.length > 0 ){   
+   // alert('we splitting ' + str);
+   var arr = str.split(' ');
+   // alert('split ' + arr[0]);
+   for( var i = 0; i < arr.length; i++ ){
+    var targ = arr[i].replace(',','');
+     // alert('Edge: ' + property + '-' + targ);
+     var st = { directed: true, label : property + '-' + targ,
+     "label-style" : {
+      "font-size": 20
+    }
+  }
+  g.addEdge(property, targ, st);
+      //alert('neigh ' + targ);
+    }
+
+  }
+}
+
+/* layout the graph using the Spring layout implementation */
+var layouter = new Graph.Layout.Spring(g);
+
+/* draw the graph using the RaphaelJS draw implementation */
+renderer = new Graph.Renderer.Raphael('canvas', g, width, height);
+
+redraw = function() {
+  layouter.layout();
+  renderer.draw();
+};
+hide = function(id) {
+  g.nodes[id].hide();
+};
+show = function(id) {
+  g.nodes[id].show();
+};
+    //    console.log(g.nodes["kiwi"]);
+}
+
+    function readFile (evt) {
+      var files = evt.target.files;
+      var file = files[0];           
+      var reader = new FileReader();
+      reader.onload = function() {
+        drawGraph(this.result);           
+      }
+      reader.readAsText(file);
+    }
+    </script>
+
+    <div id="canvas"></div>
+    <button id="redraw" onclick="redraw();">redraw</button>
+  </body>
+<!--
+
+/**
+ * This is a basic example on how to instantiate sigma. A random graph is
+ * generated and stored in the "graph" variable, and then sigma is instantiated
+ * directly with the graph.
+ *
+ * The simple instance of sigma is enough to make it render the graph on the on
+ * the screen, since the graph is given directly to the constructor.
+ */
+ 
+</script>
+-->
