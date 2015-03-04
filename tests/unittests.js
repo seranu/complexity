@@ -23,6 +23,22 @@ exports.testNodeAddNeighbour = function(test){
 	test.done();
 }
 
+exports.testRemoveNeighbour = function(test){
+	var node = new Node('removeNeighbour');
+	var neighbour = new Node('neighbour');
+	var findCallback = function(element){
+		if(element === neighbour){
+			return true;
+		}
+		return false;
+	}
+	test.equal(true, node.addNeighbour(neighbour));
+	test.equal(true, node.visitNeighbours(findCallback));
+	test.equal(true, node.removeNeighbour(neighbour));
+	test.equal(false, node.visitNeighbours(findCallback));
+	test.done();
+}
+
 exports.testGraphAddNode = function(test){
 	var g = new Graph('addNodeGraph');
 	test.equal(true, g.addNode('node'));
