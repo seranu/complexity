@@ -194,12 +194,12 @@ function Graph(graphName) {
 
 	// print all neighours for <node>
 	this.neighbours = function(nodeName) {
-		var result = false;
+		var result = '';
 		if( _self._nodes === undefined ){
 			_logger.log('Graph internal error');
 			return;
 		}
-		var node = _self.nodes[nodeName];
+		var node = _self._nodes[nodeName];
 		if (node != undefined) {
 			var text = ''
 			node.visitNeighbours(function(element) {
@@ -207,8 +207,7 @@ function Graph(graphName) {
 			});
 			// ugly text.length-2 cand text e gol
 			//_logger.log('obj: ' + JSON.stringify(_nodes[nodeName], undefined, 4) + ' type: ' + typeof _nodes[nodeName] );
-			_logger.log(nodeName + ' : [' + text.substring(0, text.length - 2) + ']');
-			result = true;
+			result = nodeName + ' : [' + text.substring(0, text.length - 2) + ']';
 		}
 		return result;
 	}

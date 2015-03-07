@@ -57,3 +57,17 @@ exports.testGraphRemoveNode = function(test){
 	test.equal(true, g.getNode('node') === undefined);
 	test.done();
 }
+
+exports.testAddEdge = function(test){
+	var g = new Graph('testAddEdge');
+	test.equal(true,  g.addNode('node'));
+	test.equal(true,  g.addNode('anotherNode'));
+	test.equal(true,  g.addEdge('node', 'anotherNode'));
+	test.equal(false, g.addEdge('node', 'newNode'));
+	test.equal(true,  g.addEdge('node', 'newNode', true));
+	test.equal(true,  g.neighbours('node') === 'node : [anotherNode, newNode]');
+	test.equal(false, g.addEdge('newerNode', 'node'));
+	test.equal(true,  g.addEdge('newerNode', 'node', true));
+	test.equal(true,  g.neighbours('newerNode') === 'newerNode : [node]');
+	test.done();	
+}
